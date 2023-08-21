@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../homePage.dart';
 
@@ -17,8 +16,27 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   TextEditingController otpController = TextEditingController();
+  bool isOTPVerified = false;
+
+  void showErrorSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Center(
+          child: Text(
+            message,
+            style: const TextStyle(fontSize: 14),
+          ),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
 
   void verifyOTP() async {
+    setState(() {
+      isOTPVerified = true; // Mark OTP as verified when verifyOTP is successful
+    });
+
     String otp = otpController.text.trim();
 
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -33,7 +51,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
             context, CupertinoPageRoute(builder: (context) => HomeScreen()));
       }
     } on FirebaseAuthException catch (ex) {
-      log(ex.code.toString());
+      showErrorSnackbar(ex.code.toString());
     }
   }
 
@@ -54,6 +72,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                   TextFormField(
                     controller: otpController,
                     maxLength: 6,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     decoration: const InputDecoration(
                       labelText: "6-Digit OTP",
                       counterText: "",

@@ -27,8 +27,8 @@ class LoginApp extends StatelessWidget {
 ColorScheme myColorScheme = ColorScheme(
   primary: Colors.black, // Replace with your desired primary color
   //primaryVariant: Colors.black[700], // Replace with a slightly darker shade
-  secondary: Colors.green, // Replace with your desired secondary color
-  secondaryVariant: Colors.green[700], // Replace with a slightly darker shade
+  secondary: Colors.black12, // Replace with your desired secondary color
+  //secondaryVariant: Colors.black12, // Replace with a slightly darker shade
   surface: Colors.white, // Replace with your desired surface color
   background: Colors.white, // Replace with your desired background color
   error: Colors.red, // Replace with your desired error color
