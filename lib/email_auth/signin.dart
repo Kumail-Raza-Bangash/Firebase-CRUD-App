@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+
+import '../phone_auth/login.dart';
+//import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 //import 'package:animated_text_kit/animated_text_kit.dart';
 
 class Signin extends StatefulWidget {
@@ -23,7 +25,7 @@ class _SigninState extends State<Signin> {
         content: Center(
           child: Text(
             message,
-            style: TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: 14),
           ),
         ),
         backgroundColor: Colors.red,
@@ -124,6 +126,23 @@ class _SigninState extends State<Signin> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (_) => Signup()));
+                      },
+                    )
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                Row(
+                  children: <Widget>[
+                    TextButton(
+                      child: Text(
+                        'Login with Phone',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => SignInWithPhone()));
                       },
                     )
                   ],
