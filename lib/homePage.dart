@@ -1,9 +1,15 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase002/email_auth/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  File? profilePic;
 
   @override
   void initState() {
@@ -48,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void saveUser() {
+  void saveUser() async {
     String name = nameController.text.trim();
     String email = emailController.text.trim();
     String phone = phoneController.text.trim();
@@ -57,8 +64,29 @@ class _HomeScreenState extends State<HomeScreen> {
     emailController.clear();
     phoneController.clear();
 
-    if (name.isNotEmpty && email.isNotEmpty || phone.isNotEmpty) {
+    if (profilePic != null && name.isNotEmpty && email.isNotEmpty ||
+        phone.isNotEmpty) {
+      UploadTask uploadTask = FirebaseStorage.instance
+          .ref()
+          .child("Profile Pictures")
+          .child(Uuid().v1())
+          .putFile(profilePic!);
+
+      StreamSubscription taskSubscription =
+          uploadTask.snapshotEvents.listen((snapshot) {
+        double percentage =
+            snapshot.bytesTransferred / snapshot.totalBytes * 100;
+
+        showErrorSnackbar(percentage.toString());
+      });
+
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadurl = await taskSnapshot.ref.getDownloadURL();
+
+      taskSubscription.cancel();
+
       Map<String, dynamic> userData = {
+        "Profile Pic": downloadurl,
         "Name": name,
         "Email": email,
         "Phone Number": phone
@@ -69,6 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       showErrorSnackbar("Please fill all the details");
     }
+
+    setState(() {
+      profilePic = null; // to clear the profile pic when we upload
+    });
   }
 
   void logOut() async {
@@ -135,6 +167,29 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              CupertinoButton(
+                onPressed: () async {
+                  XFile? selectedImage = await ImagePicker()
+                      .pickImage(source: ImageSource.gallery);
+
+                  if (selectedImage != null) {
+                    File convertedFile = File(selectedImage.path);
+                    setState(() {
+                      profilePic = convertedFile;
+                    });
+                    showErrorSnackbar("Image Selected");
+                  } else {
+                    showErrorSnackbar('No image Selected');
+                  }
+                },
+                padding: EdgeInsets.zero,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      (profilePic != null) ? FileImage(profilePic!) : null,
+                  backgroundColor: Colors.grey,
+                ),
+              ),
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(
@@ -185,6 +240,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             String docId = snapshot.data!.docs[index].id;
 
                             return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(userMap[profilePic]),
+                              ),
                               title: Text(userMap["Name"]),
                               subtitle: Text(
                                 userMap["Email"].isEmpty
