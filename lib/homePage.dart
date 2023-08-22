@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return ListTile(
                               leading: CircleAvatar(
                                 backgroundImage:
-                                    NetworkImage(userMap[profilePic]),
+                                    NetworkImage(userMap["profilePic"] ?? ""),
                               ),
                               title: Text(userMap["Name"]),
                               subtitle: Text(
