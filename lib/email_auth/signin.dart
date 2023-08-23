@@ -1,4 +1,3 @@
-import 'package:firebase002/email_auth/signup.dart';
 import 'package:firebase002/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../phone_auth/login.dart';
+import 'signup.dart';
 //import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 //import 'package:animated_text_kit/animated_text_kit.dart';
 
