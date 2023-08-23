@@ -85,7 +85,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     FAProgressBar(
                       currentValue:
                           100, // Use null for an indeterminate progress bar
-                      progressColor: Colors.black, // Change color to black
+                      progressColor: Colors.green, // Change color to black
                       size: 5, // Adjust size to small
                     )
                   else
@@ -110,7 +110,7 @@ class _SignInWithPhoneState extends State<SignInWithPhone> {
                     onPressed: () {
                       sendOTP();
                     },
-                    color: Colors.black,
+                    color: Colors.green,
                     child: Text("Sign In"),
                   ),
                   const SizedBox(height: 20),

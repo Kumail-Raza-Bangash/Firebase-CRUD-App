@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Colors.green,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
