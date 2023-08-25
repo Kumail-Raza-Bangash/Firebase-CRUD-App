@@ -67,7 +67,7 @@ Responsive Drawer:
 ## Getting Started: 
 To get started with Flutter Firebase Login and Registration App, follow these steps:
 
-1. Clone the repository: git clone [https://github.com/Kumail-Raza-Bangash/Firebase-Login-and-Registration-App.git](https://github.com/Kumail-Raza-Bangash/Firebase-Login-and-Registration-App.git) 
+1. Clone the repository: git clone [[https://github.com/Kumail-Raza-Bangash/Firebase-Login-and-Registration-App.git](https://github.com/Kumail-Raza-Bangash/Firebase-CRUD-App/blob/master/README.md)]
 2. Open the project in your favorite IDE or editor (such as Android Studio or VSCode)
 3. Run the app on an emulator or physical device using flutter run
 
